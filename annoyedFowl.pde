@@ -7,24 +7,20 @@ float maxT;
 float angle;
 float deltaTime;
 
-void drawShot(float x, float y)
-{
+void drawShot(float x, float y) {
   fill(0);
   ellipse(x, y, 3.0, 3.0);
 }
 
-void drawPosition() 
-{
-  String text = "time:" + nf(currentTime, 4, 2) 
-    + " xpos:" + int(xpos) + " ypos:" + int(ypos);  
-  text(text, 10, 20);
+void drawHUD() {
+  String text = "Time:" + nf(currentTime, 4, 2) 
+    + ", X:" + int(xpos) + ", Y:" + int(ypos);  
+  text(text, 10, 20); //Contains Time, X, Y
 }
 
 
-void setup()
-{
+void setup() {
   size(800, 400);
-  
   xpos = 0;
   ypos = 0;
   currentTime = 0;
@@ -35,21 +31,17 @@ void setup()
   deltaTime = 0.01;
 }
 
-void draw()
-{
+void draw() {
   background(255);
-  currentTime += deltaTime;      //Update time
-  
-  if (currentTime > maxT)
-  {
-    noLoop();
+  currentTime += deltaTime; //Increment the Simulation Time
+  if (currentTime > maxT) {
+    noLoop(); //Conditionally halt the simulation if complete
   }
   
   //Calculates horizontal and vertical position
   xpos = vel * currentTime * cos(angle);
   ypos = (vel * currentTime * sin(angle)) - 0.5 *(gravity*(sq(currentTime)));
 
-  //Draw cannonball
-  drawPosition();
-  drawShot(xpos, height - ypos);
+  drawHUD(); //Draw Text on screen with debug values
+  drawShot(xpos, height - ypos); //Draw cannonball itself
 }
