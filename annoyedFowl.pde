@@ -41,6 +41,7 @@ void setup() {
 void draw() {
   background(255);
 
+
   if (state=="RUN") {
     currentTime += STEP_TIME; //Increment the Simulation Time
     if (currentTime > maxT) {
@@ -52,7 +53,9 @@ void draw() {
     ypos = (vel * currentTime * sin(ballisticAngle)) - 0.5 *(gravity*(sq(currentTime)));
   }
 
+  drawCannon();  //Draw the cannon on the screen in the lowerleft corner
   drawHUD(); //Draw Text on screen with debug values
+
   drawShot(xpos, height - ypos); //Draw cannonball itself
   drawCannon();
 }
