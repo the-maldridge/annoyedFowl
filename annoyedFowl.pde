@@ -6,7 +6,8 @@ final float STEP_ANGLE = 0.1;
 final float STEP_POWER = 5;
 final float STEP_TIME = 0.05;
 
-String state = "IDLE"; //State container
+//State container
+String state = "IDLE";
 
 void drawShot(float x, float y) {
   //Draw the ball at the points that were calculated
@@ -31,8 +32,11 @@ void drawCannon() {
   rect(0, 0, 25, 7);  
   popMatrix();  
 } 
-
-
+void calPos() {
+    //Calculates horizontal and vertical position
+    xpos = vel * currentTime * cos(ballisticAngle);
+    ypos = (vel * currentTime * sin(ballisticAngle)) - 0.5 *(gravity*(sq(currentTime)));
+}
 
 void setup() {
   size(800, 400);
@@ -48,16 +52,12 @@ void draw() {
       state="IDLE";
       noLoop(); //Conditionally halt the simulation if complete
     }
-    //Calculates horizontal and vertical position
-    xpos = vel * currentTime * cos(ballisticAngle);
-    ypos = (vel * currentTime * sin(ballisticAngle)) - 0.5 *(gravity*(sq(currentTime)));
   }
 
   drawCannon();  //Draw the cannon on the screen in the lowerleft corner
-  drawHUD(); //Draw Text on screen with debug values
-
+  calPos();
   drawShot(xpos, height - ypos); //Draw cannonball itself
-  drawCannon();
+  drawHUD(); //Draw Text on screen with debug values
 }
 
 void keyPressed() {
