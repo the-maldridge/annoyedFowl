@@ -1,13 +1,15 @@
 float ballisticAngle, currentTime, maxT, vel, xpos=0, ypos=0, gravity=32, max=0; //Simulation variables
-float launchAngle = radians(45), launchPower = 50; //Launch variables
+float launchAngle = radians(45), launchPower = 100; //Launch variables
+int targetStart;
+int targetWidth = 25;
+int numAttempts = 0;
 
 //Engine constants
 final float STEP_ANGLE = 0.1;
 final float STEP_POWER = 5;
 final float STEP_TIME = 0.05;
 
-//State container
-String state = "IDLE";
+String state = "IDLE"; //State container
 
 void drawShot(float x, float y) {
   //Draw the ball at the points that were calculated
@@ -21,6 +23,23 @@ void drawHUD() {
     + ", X:" + int(xpos) + ", Y:" + int(ypos);  
   text(text, 10, 20); //Contains Time, X, Y
   text("Angle: " + nf(degrees((launchAngle)), 4,2) + "Power: " + launchPower, 10, 35);
+  text("Number of Attempts: " + int(numAttempts) + " State: " + state, 10, 50);
+}
+
+void drawTarget() {
+  stroke(255, 0, 0);
+  line(targetStart, height-1, targetStart + targetWidth, height-1);
+  stroke(0);
+}
+
+void checkTarget() {
+  float xpos = vel * currentTime * cos(launchAngle);
+  if(xpos >= targetStart && xpos <= targetStart + targetWidth) {
+    state = "HIT";
+  }
+  else {
+    state = "MISS";
+  }
 }
 
 void drawCannon() {
@@ -40,6 +59,10 @@ void calPos() {
 
 void setup() {
   size(800, 400);
+  
+  targetStart = int(random(100, width - targetWidth));
+  numAttempts = 0;
+  state = "IDLE";
 }
 
 void draw() {
@@ -49,11 +72,15 @@ void draw() {
   if (state=="RUN") {
     currentTime += STEP_TIME; //Increment the Simulation Time
     if (currentTime > maxT) {
-      state="IDLE";
-      noLoop(); //Conditionally halt the simulation if complete
+      checkTarget();  //Check in see if the player hit the target or not
     }
   }
+  if (state=="MISS")
+  {
+    
+  }
 
+  drawTarget();  //Draw target in random area on screen.
   drawCannon();  //Draw the cannon on the screen in the lowerleft corner
   calPos();
   drawShot(xpos, height - ypos); //Draw cannonball itself
@@ -76,8 +103,10 @@ void keyPressed() {
       break;
     case ' ':
       ballisticAngle = launchAngle;
+      currentTime = 0;
       vel = launchPower;
       maxT = ((2 * vel * sin(ballisticAngle)) / gravity);
+      numAttempts = numAttempts + 1;  //Increment the number of attempts
       state="RUN";
       break;
     default: 
