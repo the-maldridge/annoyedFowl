@@ -21,3 +21,4 @@ class target {
     return targetLoc + rangeFactor;
   }
 }
+

@@ -1,3 +1,4 @@
+import ddf.minim.*;
 int numAttempts;
 int hits;
 int score;
@@ -6,19 +7,35 @@ PImage bg;
 splash sp;
 cannon tux;
 target folder;
+HUD trycount;
 ArrayList<projectile> disc;
- 
+int goal;  //Number of hits until you win
+
+//Define sound variables
+Minim minim;
+Sound startup;
+Sound criticalStop;
+Sound shutdown;
+  
 void setup() {
   size(800, 400);
+  minim = new Minim(this);
   numAttempts = 0;
   bg = loadImage("glyphs/backdrop.png");
   sp = new splash("glyphs/splashscreen.png");
   tux = new cannon("glyphs/tux.png");
+  trycount = new HUD();
   disc = new ArrayList<projectile>();
   folder = new target();
   folder.create();
   numAttempts = 1;
   hits = 1;
+  goal = 5;
+  
+  //Initialize sound objects
+  startup = new Sound("audio/Windows XP Startup.wav");
+  criticalStop = new Sound("audio/Windows XP Critical Stop.wav");
+  shutdown = new Sound("audio/Windows XP Shutdown.wav");
 }
 
 void draw() {
@@ -33,17 +50,26 @@ void draw() {
       if (disc.get(i).hit() && !(disc.get(i).checked())) {
         disc.get(i).check();
         hits = hits + 1;
+        criticalStop.play();  //play critical stop when player hits target
         folder.create();        
       }
     }
-    score = int((hits*7/float(numAttempts)) - 1);
     println("score: " + str(score));
+    trycount.update(hits, numAttempts);
   } else {
     sp.drawSplash();
   }
+<<<<<<< HEAD
   if(numAttempts >= 6){
     Score_Name_Entry sc = new Score_Name_Entry(0);
     noLoop();
+=======
+  //If the player has hit 5 targets, the shutdown music will play
+  if(hits == goal)
+  {
+    shutdown.playWithoutRewind();
+    //Insert game over code
+>>>>>>> upstream/master
   }
 }
 
@@ -67,8 +93,19 @@ void keyPressed() {
       break;
     case '\n':
       started=true;
+      startup.playWithoutRewind();  //Play startup after splash screen
       break;
     default: 
       println("that was not a valid key");
   }
+}
+
+void stop()
+{
+  //Called when processing is closing
+  startup.stop();
+  criticalStop.stop();
+  shutdown.stop();
+  minim.stop();
+  super.stop();
 }
