@@ -59,7 +59,7 @@ void draw() {
     sp.drawSplash();
   }
 
-  if(numAttempts >= 6){
+if(numAttempts >= 6){
     Score_Name_Entry sc = new Score_Name_Entry(0);
     shutdown.playWithoutRewind();
     noLoop();
