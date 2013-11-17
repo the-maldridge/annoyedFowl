@@ -1,16 +1,23 @@
 class target {
-  private int targetStart;
-  private int targetWidth;
+  private int rangeFactor = 25;
+  private int targetLoc;
+  private PImage img = loadImage("glyphs/target.png");
   
-  target(String glyph) {
-    targetStart = int(random(100, width - targetWidth));
-    targetWidth = 50;
-    stroke(255, 0, 0);
-    line(targetStart, height-1, targetStart + targetWidth, height-1);
-    stroke(0);
+  target() {}
+
+  void create() {
+    targetLoc = int(random(100, width));
+    update();
+  }
+  void update() {
+    image(img, targetLoc, height - img.height/2);
   }
 
-  void checkTarget() {
-    //check if target hit
+  public int leftEdge() {
+    return targetLoc - rangeFactor;
+  }
+  
+  public int rightEdge() {
+    return targetLoc + rangeFactor;
   }
 }

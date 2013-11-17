@@ -1,8 +1,10 @@
 int numAttempts = 0;
+int hits = 0;
 boolean started = false;
 PImage bg;
 splash sp;
 cannon tux;
+target folder;
 ArrayList<projectile> disc;
  
 void setup() {
@@ -11,17 +13,27 @@ void setup() {
   bg = loadImage("glyphs/backdrop.png");
   sp = new splash("glyphs/splashscreen.png");
   tux = new cannon("glyphs/tux.png");
-  folder = new target("glyphs/folder.png");
   disc = new ArrayList<projectile>();
+  folder = new target();
+  folder.create();
 }
 
 void draw() {
   if (started) {
     background(bg);
     tux.update();
+    folder.update();
     for(int i=0; i<disc.size(); i++) {
-      disc.get(i).update();
+      disc.get(i).update(folder);
     }
+    for(int i=0; i<disc.size(); i++) {
+      if (disc.get(i).hit() && !(disc.get(i).checked())) {
+        disc.get(i).check();
+        hits = hits + 1;
+        folder.create();        
+      }
+    }
+    println("hits: " + str(hits));
   } else {
     sp.drawSplash();
   }

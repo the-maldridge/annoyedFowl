@@ -8,9 +8,11 @@ class projectile {
   private float ballisticAngle;
   private PImage img = loadImage("glyphs/CD.png");
   private String simState = "STOP";
+  public boolean hit;
+  public boolean checked;
+  
   
   projectile(float langle, float lpower) {
-    //img = loadImage(glyph);
     ballisticAngle = langle;
     vel = lpower;
     xpos=0;
@@ -33,15 +35,35 @@ class projectile {
     ypos = (vel * simTime * sin(ballisticAngle)) - 0.5 *(gravity*(sq(simTime)));
   }
   
-  public void update() {
+  public void update(target target) {
     simTime = simTime + 0.05;
    if (simState == "RUN") {
       calPos();
       drawShot();
-    } else {
       if (simTime > maxT) {
         simState="STOP";
+        hit = collided(target);
       }
     }
+  }
+  
+  public boolean collided(target targobj) {
+   if (xpos < targobj.rightEdge() && xpos > targobj.leftEdge()) {
+    return true;
+   } else {
+    return false;
+   } 
+  }
+  
+  public void check() {
+    checked=true;
+  }
+  
+  public boolean checked() {
+    return checked;
+  }
+  
+  public boolean hit() {
+    return hit;
   }
 }
