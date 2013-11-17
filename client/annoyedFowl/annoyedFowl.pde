@@ -6,6 +6,7 @@ PImage bg;
 splash sp;
 cannon tux;
 target folder;
+HUD trycount;
 ArrayList<projectile> disc;
  
 void setup() {
@@ -14,6 +15,7 @@ void setup() {
   bg = loadImage("glyphs/backdrop.png");
   sp = new splash("glyphs/splashscreen.png");
   tux = new cannon("glyphs/tux.png");
+  trycount = new HUD();
   disc = new ArrayList<projectile>();
   folder = new target();
   folder.create();
@@ -36,8 +38,8 @@ void draw() {
         folder.create();        
       }
     }
-    score = int((hits*7/float(numAttempts)) - 1);
     println("score: " + str(score));
+    trycount.update(hits, numAttempts);
   } else {
     sp.drawSplash();
   }

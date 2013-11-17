@@ -17,15 +17,15 @@ void draw() {
       scores.add(int(newScore.readChar()));
       names.add(str(newScore.readChar() + newScore.readChar() + newScore.readChar()));
     
-    scoreTable = "High Scores Table:\n";
-    for (int i=0; i<scores.size(); i++) {
-      String name = names.get(i);
-      String score = str(scores.get(i));
-      scoreTable += name + "\t" + score;
-    }
+      scoreTable = "High Scores Table:\n";
+      for (int i=0; i<scores.size(); i++) {
+        String name = names.get(i);
+        String score = str(scores.get(i));
+        scoreTable += name + "\t" + score;
+      }
     
-    cloud.write(scoreTable);
-    cloud.disconnect(newScore);
+      cloud.write(scoreTable);
+      cloud.disconnect(newScore);
     }
 }
     
