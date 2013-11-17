@@ -3,20 +3,25 @@ boolean started = false;
 PImage bg;
 splash sp;
 cannon tux;
-  
+ArrayList<projectile> disc;
+ 
 void setup() {
   size(800, 400);
   numAttempts = 0;
   bg = loadImage("glyphs/backdrop.png");
   sp = new splash("glyphs/splashscreen.png");
   tux = new cannon("glyphs/tux.png");
-
+  folder = new target("glyphs/folder.png");
+  disc = new ArrayList<projectile>();
 }
 
 void draw() {
   if (started) {
     background(bg);
     tux.update();
+    for(int i=0; i<disc.size(); i++) {
+      disc.get(i).update();
+    }
   } else {
     sp.drawSplash();
   }
@@ -37,6 +42,7 @@ void keyPressed() {
       tux.decPower();
       break;
     case ' ':
+      disc.add(tux.fire());
       numAttempts++;
       break;
     case '\n':

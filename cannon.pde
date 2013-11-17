@@ -10,25 +10,15 @@ class cannon {
   }
 
 
-private void update() {
-  pushMatrix();
-  translate(img.width/2, height - img.height/2);
-  rotate(launchAngle * -1);
-  imageMode(CENTER);
-  image(img, 0, 0);
-  popMatrix();
-}
-
-/*private void update() {
-    //Get a new translation matrix, rotate, and restore the canvas
-    pushMatrix(); 
-    fill(0);
-    translate(0, height-7); 
-    rotate(launchAngle * -1); 
-    rect(0, 0, 25, 7);  
+  private void update() {
+    pushMatrix();
+    translate(img.width/2, height - img.height/2);
+    rotate(launchAngle * -1);
+    imageMode(CENTER);
+    image(img, 0, 0);
     popMatrix();
-  }*/
-  
+  }
+
   public void raiseCannon() {
     launchAngle = launchAngle+STEP_ANGLE>HALF_PI?HALF_PI:launchAngle+STEP_ANGLE;
   }
@@ -43,5 +33,9 @@ private void update() {
   
   public void decPower() {
     launchPower = launchPower-STEP_POWER<50?50:launchPower-STEP_POWER;
+  }
+  public projectile fire() {
+    projectile p = new projectile(launchAngle, launchPower);
+    return p;
   }
 }
