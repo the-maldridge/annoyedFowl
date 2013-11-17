@@ -1,5 +1,6 @@
-int numAttempts = 0;
-int hits = 0;
+int numAttempts;
+int hits;
+int score;
 boolean started = false;
 PImage bg;
 splash sp;
@@ -16,6 +17,8 @@ void setup() {
   disc = new ArrayList<projectile>();
   folder = new target();
   folder.create();
+  numAttempts = 1;
+  hits = 1;
 }
 
 void draw() {
@@ -33,7 +36,8 @@ void draw() {
         folder.create();        
       }
     }
-    println("hits: " + str(hits));
+    score = int((hits*7/float(numAttempts)) - 1);
+    println("score: " + str(score));
   } else {
     sp.drawSplash();
   }
