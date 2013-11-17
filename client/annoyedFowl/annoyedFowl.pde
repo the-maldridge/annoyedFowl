@@ -30,7 +30,6 @@ void setup() {
   folder.create();
   numAttempts = 1;
   hits = 1;
-  goal = 5;
   
   //Initialize sound objects
   startup = new Sound("audio/Windows XP Startup.wav");
@@ -59,11 +58,11 @@ void draw() {
   } else {
     sp.drawSplash();
   }
-  //If the player has hit 5 targets, the shutdown music will play
-  if(hits == goal)
-  {
+
+  if(numAttempts >= 6){
+    Score_Name_Entry sc = new Score_Name_Entry(0);
     shutdown.playWithoutRewind();
-    //Insert game over code
+    noLoop();
   }
 }
 
