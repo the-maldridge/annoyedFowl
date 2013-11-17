@@ -53,13 +53,14 @@ void draw() {
         folder.create();        
       }
     }
+    score = int(float(hits)/numAttempts);
     println("score: " + str(score));
     trycount.update(hits, numAttempts);
   } else {
     sp.drawSplash();
   }
 
-if(numAttempts >= 6){
+if(hits > 5){
     Score_Name_Entry sc = new Score_Name_Entry(0);
     shutdown.playWithoutRewind();
     noLoop();
