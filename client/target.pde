@@ -5,11 +5,11 @@ class target {
   
   target() {}
 
-  void create() {
+  public void create() {
     targetLoc = int(random(100, width));
     update();
   }
-  void update() {
+  public void update() {
     image(img, targetLoc, height - img.height/2);
   }
 
