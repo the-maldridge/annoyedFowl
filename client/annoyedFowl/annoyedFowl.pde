@@ -20,7 +20,6 @@ Sound shutdown;
 void setup() {
   size(800, 400);
   minim = new Minim(this);
-  numAttempts = 0;
   bg = loadImage("glyphs/backdrop.png");
   sp = new splash("glyphs/splashscreen.png");
   tux = new cannon("glyphs/tux.png");
@@ -61,10 +60,17 @@ void draw() {
   }
 
 if(hits > 5){
-    Score_Name_Entry sc = new Score_Name_Entry(0);
-    shutdown.playWithoutRewind();
+    Score_Name_Entry sc = new Score_Name_Entry(score);
+    shutdown.play();
     noLoop();
   }
+}
+
+void reset() {
+    numAttempts = 1;
+    hits = 1;
+    started = false;
+    loop();
 }
 
 void keyPressed() {
@@ -87,7 +93,7 @@ void keyPressed() {
       break;
     case '\n':
       started=true;
-      startup.playWithoutRewind();  //Play startup after splash screen
+      startup.play();  //Play startup after splash screen
       break;
     default: 
       println("that was not a valid key");
