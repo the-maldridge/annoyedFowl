@@ -70,19 +70,6 @@ void setup() {
 void draw() {
     Client newScore = cloud.available();
     if (newScore != null) {
-<<<<<<< HEAD
-      println("client conected");
-      scores.add(int(newScore.readChar()));
-      names.add(str(newScore.readChar() + newScore.readChar() + newScore.readChar()));
-    
-      scoreTable = "High Scores Table:\n";
-      for (int i=0; i<scores.size(); i++) {
-        String name = names.get(i);
-        String score = str(scores.get(i));
-        println(name);
-        scoreTable += name + "\t" + score;
-      }
-=======
       nas.add(new NameAndScore(str(newScore.readChar() + newScore.readChar() + newScore.readChar()),
       int(newScore.readChar())));
       
@@ -94,7 +81,7 @@ void draw() {
         String score = str(nas.get(i).GetScore());
         scoreTable += name + "\t" + score;
      }
->>>>>>> 08177716cd8d52d7433320630bbc754693b3485d
+
     
       cloud.write(scoreTable);
       cloud.disconnect(newScore);
