@@ -10,6 +10,7 @@ target folder;
 HUD trycount;
 ArrayList<projectile> disc;
 int goal;  //Number of hits until you win
+String[] scores;
 
 //Define sound variables
 Minim minim;
@@ -30,6 +31,7 @@ void setup() {
   folder.create();
   numAttempts = 1;
   hits = 1;
+  scores = new String[5];
   
   //Initialize sound objects
   startup = new Sound("audio/Windows XP Startup.wav");
@@ -53,14 +55,14 @@ void draw() {
         folder.create();        
       }
     }
-    println("score: " + str(score));
+   // println("score: " + str(score));
     trycount.update(hits, numAttempts);
   } else {
     sp.drawSplash();
   }
 
 if(numAttempts >= 6){
-    Score_Name_Entry sc = new Score_Name_Entry(0);
+    Score_Name_Entry sc = new Score_Name_Entry(0, scores);
     shutdown.playWithoutRewind();
     noLoop();
   }

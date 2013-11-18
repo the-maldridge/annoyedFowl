@@ -5,9 +5,12 @@ import processing.net.*;
 class Score_Name_Entry{
   PFrame f;
   
-  Score_Name_Entry( int score){
-    f = new PFrame(score);
+  Score_Name_Entry(int score,String[] scores){
+    f = new PFrame(score, scores);
   }  
+  String[] getScores(){
+    return f.getScores();
+  }
 }  
   
   public class secondApplet extends PApplet{
@@ -17,9 +20,9 @@ class Score_Name_Entry{
     String input;
     String name;
     int score;
-    Client myClient;
+    String[] sc;
     
-    secondApplet(int s){
+    secondApplet(int s, String[] scores){
      score = s; 
     }
     void setup(){
@@ -31,11 +34,13 @@ class Score_Name_Entry{
       buttonY = height*7/8 - buttonH;
       name = "";
       input = "";
-      myClient = new Client(this, "localhost", 9600);
+      sc = scores;
     } 
     
     
-    
+    String[]  getScores(){
+     return sc; 
+    }
     
     void draw(){
        update(mouseX, mouseY);
@@ -81,13 +86,12 @@ class Score_Name_Entry{
      
   void mousePressed(){
     if(button){
-      postScore(name.toCharArray(), score);
+      name = input;
+      postScore(name, score);
     }
   }
   void keyPressed() {
-  if (key == '\n' ) {
-    name = input;
-  }else if (key == BACKSPACE){
+  if (key == BACKSPACE){
     if(input.length() > 0){
       input = input.substring(0, input.length() - 1);
     }
@@ -110,20 +114,15 @@ class Score_Name_Entry{
    }
    
    
-   public void postScore(char[] name, int score){
-     myClient.write(score);
-     for(int i = 0; i < name.length; i++){
-       myClient.write(name[i]);
-     }
-     getResult();
-   }
-   public void getResult(){
-     String scores = myClient.readString();
-     println("SCORE RETURN: " + scores);
+   public void postScore(String name, int score){
+     sc[0] = name + " - " + score;
      showResult(scores);
    }
-   public void showResult(String scs){
-     QFrame q = new QFrame(scs);
+   public void getResult(){
+     
+   }
+   public void showResult(String[] scs){
+     QFrame q = new QFrame(scores);
    }
    
    
@@ -131,18 +130,21 @@ class Score_Name_Entry{
   
   public class PFrame extends JFrame {
     secondApplet s;
-  public PFrame(int score){
+  public PFrame(int score,String[] scores){
     setBounds(0, 0, 810, 410);
-    s = new secondApplet(score);
+    s = new secondApplet(score, scores);
     add(s);
     s.init();
     show();
+  }
+  String[] getScores(){
+   return s.getScores(); 
   }
 }
 
   public class QFrame extends JFrame {
     thirdApplet t;
-  public QFrame(String scores){
+  public QFrame(String[] scores){
     setBounds(0, 0, 810, 410);
     t = new thirdApplet(scores);
     add(t);
@@ -153,15 +155,17 @@ class Score_Name_Entry{
   
   
 public class thirdApplet extends PApplet{
-  String display;
-  thirdApplet(String scores){
+  String display[];
+  thirdApplet(String[] scores){
     display = scores;
   }
   void setup(){
     size(400,800);
   }
   void draw(){
+    background(255);
+    fill(0);
     textAlign(CENTER,CENTER);
-    text(display,width/2, height/2);
+    text("1." + display[0],width/2, height/2);
   }
 }
