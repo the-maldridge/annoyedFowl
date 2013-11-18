@@ -9,6 +9,7 @@ cannon tux;
 target folder;
 ArrayList<projectile> disc;
 int goal;  //Number of hits until you win
+boolean gameover;
 
 //Define sound variables
 Minim minim;
@@ -26,14 +27,15 @@ void setup() {
   disc = new ArrayList<projectile>();
   folder = new target();
   folder.create();
-  numAttempts = 1;
-  hits = 1;
+  hits = 0;
   goal = 5;
   
   //Initialize sound objects
   startup = new Sound("audio/Windows XP Startup.wav");
   criticalStop = new Sound("audio/Windows XP Critical Stop.wav");
   shutdown = new Sound("audio/Windows XP Shutdown.wav");
+  
+  gameover = false;
 }
 
 void draw() {
@@ -54,14 +56,16 @@ void draw() {
     }
     score = int((hits*7/float(numAttempts)) - 1);
     println("score: " + str(score));
-  } else {
-    sp.drawSplash();
+  } 
+  else {
+    //sp.drawSplash();
+    background(sp.sp);
   }
   //If the player has hit 5 targets, the shutdown music will play
   if(hits == goal)
   {
     shutdown.playWithoutRewind();
-    //Insert game over code
+    gameover = true;
   }
 }
 
@@ -80,13 +84,29 @@ void keyPressed() {
       tux.decPower();
       break;
     case ' ':
+    if(gameover == false)
+    {
       disc.add(tux.fire());
       numAttempts++;
+    }
       break;
     case '\n':
       started=true;
       startup.playWithoutRewind();  //Play startup after splash screen
       break;
+    case 'r':
+      if(gameover == true)
+      {
+        started = false;
+        numAttempts = 0;
+        hits = 1;
+        startup.rewind();
+        shutdown.rewind();
+        criticalStop.rewind();
+        folder.create();
+        gameover = false;
+        //background(sp.sp);
+      }
     default: 
       println("that was not a valid key");
   }
