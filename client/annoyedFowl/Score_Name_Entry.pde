@@ -1,6 +1,5 @@
 
 import javax.swing.JFrame;
-import processing.net.*;
 
 class Score_Name_Entry{
   PFrame f;
@@ -21,6 +20,7 @@ class Score_Name_Entry{
     String name;
     int score;
     String[] sc;
+
     
     secondApplet(int s, String[] scores){
      score = s; 
@@ -35,6 +35,7 @@ class Score_Name_Entry{
       name = "";
       input = "";
       sc = scores;
+
     } 
     
     
@@ -89,6 +90,7 @@ class Score_Name_Entry{
       name = input;
       postScore(name, score);
     }
+
   }
   void keyPressed() {
   if (key == BACKSPACE){

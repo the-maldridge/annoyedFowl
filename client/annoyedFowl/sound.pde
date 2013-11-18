@@ -11,8 +11,8 @@ class Sound
   
   void play()  //Plays a sounds and then rewind
   {
-    song.play();
     song.rewind();
+    song.play();
   }
   
   void playWithoutRewind()  //Does not rewind sound, good for single use sounds

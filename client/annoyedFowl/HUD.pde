@@ -5,6 +5,6 @@ class HUD {
     textSize(25);
     String text = str(hits) + "/" + str(trys);
     textAlign(RIGHT);
-    text(text, width/2, 35);
+    text(text, width, 35);
   }
 }

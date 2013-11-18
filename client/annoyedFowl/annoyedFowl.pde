@@ -11,6 +11,8 @@ HUD trycount;
 ArrayList<projectile> disc;
 int goal;  //Number of hits until you win
 String[] scores;
+boolean gameover;
+
 
 //Define sound variables
 Minim minim;
@@ -21,7 +23,6 @@ Sound shutdown;
 void setup() {
   size(800, 400);
   minim = new Minim(this);
-  numAttempts = 0;
   bg = loadImage("glyphs/backdrop.png");
   sp = new splash("glyphs/splashscreen.png");
   tux = new cannon("glyphs/tux.png");
@@ -30,13 +31,16 @@ void setup() {
   folder = new target();
   folder.create();
   numAttempts = 1;
-  hits = 1;
   scores = new String[5];
+  hits = 0;
+  goal = 5;
   
   //Initialize sound objects
   startup = new Sound("audio/Windows XP Startup.wav");
   criticalStop = new Sound("audio/Windows XP Critical Stop.wav");
   shutdown = new Sound("audio/Windows XP Shutdown.wav");
+  
+  gameover = false;
 }
 
 void draw() {
@@ -55,17 +59,31 @@ void draw() {
         folder.create();        
       }
     }
-   // println("score: " + str(score));
+    score = int(float(hits)/numAttempts);
     trycount.update(hits, numAttempts);
-  } else {
-    sp.drawSplash();
+  } 
+  else {
+    //sp.drawSplash();
+    background(sp.sp);
   }
 
 if(numAttempts >= 6){
     Score_Name_Entry sc = new Score_Name_Entry(0, scores);
+}
+  //If the player has hit 5 targets, the shutdown music will play
+  if(hits == goal)
+  {
+
     shutdown.playWithoutRewind();
-    noLoop();
+    gameover = true;
   }
+}
+
+void reset() {
+    numAttempts = 1;
+    hits = 1;
+    started = false;
+    loop();
 }
 
 void keyPressed() {
@@ -83,13 +101,29 @@ void keyPressed() {
       tux.decPower();
       break;
     case ' ':
+    if(gameover == false)
+    {
       disc.add(tux.fire());
       numAttempts++;
+    }
       break;
     case '\n':
       started=true;
-      startup.playWithoutRewind();  //Play startup after splash screen
+      startup.play();  //Play startup after splash screen
       break;
+    case 'r':
+      if(gameover == true)
+      {
+        started = false;
+        numAttempts = 0;
+        hits = 1;
+        startup.rewind();
+        shutdown.rewind();
+        criticalStop.rewind();
+        folder.create();
+        gameover = false;
+        //background(sp.sp);
+      }
     default: 
       println("that was not a valid key");
   }
