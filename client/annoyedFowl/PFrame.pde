@@ -133,8 +133,6 @@
      String thing = name + " - " + score;
      scores[0] = thing;
      scoreList[0] = score;
-     println(Arrays.toString(scores));
-     println(Arrays.toString(scoreList));
      for(int i = 0; i < scoreList.length; i++){
        for (int j = scoreList.length - 1; j > i; j--){
          if(scoreList[j] < scoreList[j-1]){
@@ -147,8 +145,6 @@
          }
        }
      }
-     println(Arrays.toString(scores));
-     println(Arrays.toString(scoreList));
      showResult();
    }
    public void showResult(){

@@ -76,7 +76,6 @@ if(hits >= 5){
     f = new PFrame(score, scores, scoreList);
     f.addWindowListener(new WindowAdapter(){
       public void windowClosing(WindowEvent e){
-        println("windowClosed");
         scores = f.getScores();
         scoreList = f.getScoreList();
         QFrame q = new QFrame(scores);
