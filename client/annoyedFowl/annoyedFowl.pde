@@ -1,4 +1,8 @@
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowAdapter;
 import ddf.minim.*;
+import javax.swing.JFrame;
+import java.util.*;
 int numAttempts;
 int hits;
 int score;
@@ -10,8 +14,10 @@ target folder;
 HUD trycount;
 ArrayList<projectile> disc;
 int goal;  //Number of hits until you win
-String[] scores;
+String[] scores = {"","","","","",""};
+int[] scoreList = {-1,-1,-1,-1,-1,-1};
 boolean gameover;
+PFrame f;
 
 
 //Define sound variables
@@ -30,8 +36,7 @@ void setup() {
   disc = new ArrayList<projectile>();
   folder = new target();
   folder.create();
-  numAttempts = 1;
-  scores = new String[5];
+  numAttempts = 0;
   hits = 0;
   goal = 5;
   
@@ -59,7 +64,7 @@ void draw() {
         folder.create();        
       }
     }
-    score = int(float(hits)/numAttempts);
+    score = int(float(hits)/numAttempts*10);
     trycount.update(hits, numAttempts);
   } 
   else {
@@ -67,22 +72,35 @@ void draw() {
     background(sp.sp);
   }
 
-if(numAttempts >= 6){
-    Score_Name_Entry sc = new Score_Name_Entry(0, scores);
-}
-  //If the player has hit 5 targets, the shutdown music will play
-  if(hits == goal)
-  {
-
+if(hits >= 5){
+    f = new PFrame(score, scores, scoreList);
+    f.addWindowListener(new WindowAdapter(){
+      public void windowClosing(WindowEvent e){
+        println("windowClosed");
+        scores = f.getScores();
+        scoreList = f.getScoreList();
+        QFrame q = new QFrame(scores);
+        q.addWindowListener(new WindowAdapter(){
+         public void windowClosing(WindowEvent e){
+           reset();
+         }
+       });
+      }
+    });
     shutdown.playWithoutRewind();
-    gameover = true;
-  }
+    noLoop();
+}
+ 
 }
 
 void reset() {
-    numAttempts = 1;
-    hits = 1;
-    started = false;
+     started = false;
+        numAttempts = 0;
+        hits = 0;
+        startup.rewind();
+        shutdown.rewind();
+        criticalStop.rewind();
+        folder.create();
     loop();
 }
 
@@ -111,19 +129,6 @@ void keyPressed() {
       started=true;
       startup.play();  //Play startup after splash screen
       break;
-    case 'r':
-      if(gameover == true)
-      {
-        started = false;
-        numAttempts = 0;
-        hits = 1;
-        startup.rewind();
-        shutdown.rewind();
-        criticalStop.rewind();
-        folder.create();
-        gameover = false;
-        //background(sp.sp);
-      }
     default: 
       println("that was not a valid key");
   }

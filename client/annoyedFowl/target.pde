@@ -1,5 +1,5 @@
 class target {
-  private int rangeFactor = 25;
+  private int rangeFactor = 40;
   private int targetLoc;
   private PImage img = loadImage("glyphs/target.png");
   
@@ -21,4 +21,3 @@ class target {
     return targetLoc + rangeFactor;
   }
 }
-

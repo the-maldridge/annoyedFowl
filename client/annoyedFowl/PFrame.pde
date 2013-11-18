@@ -1,18 +1,26 @@
-
-import javax.swing.JFrame;
-
-class Score_Name_Entry{
-  PFrame f;
-  
-  Score_Name_Entry(int score,String[] scores){
-    f = new PFrame(score, scores);
-  }  
-  String[] getScores(){
-    return f.getScores();
+ import java.awt.*;
+  public class PFrame extends JFrame {
+    secondApplet s;
+  public PFrame(int score,String[] scores,int[] scoreList){
+    setBounds(0, 0, 810, 410);
+    s = new secondApplet(score, scores,  scoreList);
+    add(s);
+    s.init();
+    show();
   }
-}  
+  String[] getScores(){
+   return s.getScores(); 
+  }
+  int[] getScoreList(){
+    return s.getScoreList();
+  }
+  public void closeWindow(){
+    WindowEvent c = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+    Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(c);
+  }
   
-  public class secondApplet extends PApplet{
+  
+   public class secondApplet extends PApplet{
     int buttonX, buttonY, buttonH, buttonW; 
     int buttonSize;
     boolean button;
@@ -20,9 +28,10 @@ class Score_Name_Entry{
     String name;
     int score;
     String[] sc;
+    int[] sL;
 
     
-    secondApplet(int s, String[] scores){
+    secondApplet(int s, String[] scores,int[] scoreList){
      score = s; 
     }
     void setup(){
@@ -35,12 +44,16 @@ class Score_Name_Entry{
       name = "";
       input = "";
       sc = scores;
+      sL = scoreList;
 
     } 
     
     
     String[]  getScores(){
      return sc; 
+    }
+    int[] getScoreList(){
+      return scoreList;
     }
     
     void draw(){
@@ -55,10 +68,10 @@ class Score_Name_Entry{
        stroke(0);
        rect(buttonX, buttonY, buttonW, buttonH);
        
-       textSize(32);
+       textSize(40);
        stroke(0);
        fill(0);
-       textAlign(CENTER, BOTTOM);
+       textAlign(CENTER);
        text("Submit", width/2, height*7/8);
        
        textSize(40);
@@ -117,57 +130,31 @@ class Score_Name_Entry{
    
    
    public void postScore(String name, int score){
-     sc[0] = name + " - " + score;
-     showResult(scores);
+     String thing = name + " - " + score;
+     scores[0] = thing;
+     scoreList[0] = score;
+     println(Arrays.toString(scores));
+     println(Arrays.toString(scoreList));
+     for(int i = 0; i < scoreList.length; i++){
+       for (int j = scoreList.length - 1; j > i; j--){
+         if(scoreList[j] < scoreList[j-1]){
+           int temp = scoreList[j];
+           scoreList[j] = scoreList[j-1];
+           scoreList[j-1] = temp;
+           String tempS = scores[j];
+           scores[j] = scores[j-1];
+           scores[j-1] = tempS;
+         }
+       }
+     }
+     println(Arrays.toString(scores));
+     println(Arrays.toString(scoreList));
+     showResult();
    }
-   public void getResult(){
-     
-   }
-   public void showResult(String[] scs){
-     QFrame q = new QFrame(scores);
+   public void showResult(){
+     closeWindow();
    }
    
    
  }
-  
-  public class PFrame extends JFrame {
-    secondApplet s;
-  public PFrame(int score,String[] scores){
-    setBounds(0, 0, 810, 410);
-    s = new secondApplet(score, scores);
-    add(s);
-    s.init();
-    show();
-  }
-  String[] getScores(){
-   return s.getScores(); 
-  }
-}
-
-  public class QFrame extends JFrame {
-    thirdApplet t;
-  public QFrame(String[] scores){
-    setBounds(0, 0, 810, 410);
-    t = new thirdApplet(scores);
-    add(t);
-    t.init();
-    show();
-  }
-}
-  
-  
-public class thirdApplet extends PApplet{
-  String display[];
-  thirdApplet(String[] scores){
-    display = scores;
-  }
-  void setup(){
-    size(400,800);
-  }
-  void draw(){
-    background(255);
-    fill(0);
-    textAlign(CENTER,CENTER);
-    text("1." + display[0],width/2, height/2);
-  }
 }
