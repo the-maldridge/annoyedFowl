@@ -1,6 +1,5 @@
 
 import javax.swing.JFrame;
-import processing.net.*;
 
 class Score_Name_Entry{
   PFrame f;
@@ -17,7 +16,6 @@ class Score_Name_Entry{
     String input;
     String name;
     int score;
-    Client myClient;
     
     secondApplet(int s){
      score = s; 
@@ -31,7 +29,6 @@ class Score_Name_Entry{
       buttonY = height*7/8 - buttonH;
       name = "";
       input = "";
-      myClient = new Client(this, "localhost", 9600);
     } 
     
     
@@ -80,9 +77,6 @@ class Score_Name_Entry{
      
      
   void mousePressed(){
-    if(button){
-      postScore(name.toCharArray(), score);
-    }
   }
   void keyPressed() {
   if (key == '\n' ) {
@@ -110,22 +104,7 @@ class Score_Name_Entry{
    }
    
    
-   public void postScore(char[] name, int score){
-     myClient.write(score);
-     for(int i = 0; i < name.length; i++){
-       myClient.write(name[i]);
-     }
-     getResult();
-   }
-   public void getResult(){
-     String scores = myClient.readString();
-     println("SCORE RETURN: " + scores);
-     showResult(scores);
-   }
-   public void showResult(String scs){
-     QFrame q = new QFrame(scs);
-   }
-   
+    
    
  }
   
