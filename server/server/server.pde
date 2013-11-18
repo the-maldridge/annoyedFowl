@@ -14,6 +14,7 @@ void setup() {
 void draw() {
     Client newScore = cloud.available();
     if (newScore != null) {
+      println("client conected");
       scores.add(int(newScore.readChar()));
       names.add(str(newScore.readChar() + newScore.readChar() + newScore.readChar()));
     
@@ -21,6 +22,7 @@ void draw() {
       for (int i=0; i<scores.size(); i++) {
         String name = names.get(i);
         String score = str(scores.get(i));
+        println(name);
         scoreTable += name + "\t" + score;
       }
     
