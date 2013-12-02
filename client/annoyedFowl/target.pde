@@ -1,5 +1,4 @@
 class target {
-  private int rangeFactor = 40;
   private int targetLoc;
   private PImage img = loadImage("glyphs/target.png");
   
@@ -13,11 +12,15 @@ class target {
     image(img, targetLoc, height - img.height/2);
   }
 
-  public int leftEdge() {
-    return targetLoc - rangeFactor;
+  public int xpos() {
+    return targetLoc;
   }
   
-  public int rightEdge() {
-    return targetLoc + rangeFactor;
+  public int ypos() {
+    return img.height/2;
+  }
+  
+  public int radius() {
+    return img.height;
   }
 }

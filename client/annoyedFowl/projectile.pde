@@ -40,19 +40,15 @@ class projectile {
    if (simState == "RUN") {
       calPos();
       drawShot();
-      if (simTime > maxT) {
+      if (collided(target)) {
         simState="STOP";
-        hit = collided(target);
+        hit = true;
       }
     }
   }
   
   public boolean collided(target targobj) {
-   if (xpos < targobj.rightEdge() && xpos > targobj.leftEdge()) {
-    return true;
-   } else {
-    return false;
-   } 
+    return ((xpos-targobj.xpos())*(xpos-targobj.xpos()) + (ypos-targobj.ypos())*(ypos-targobj.ypos()) <= targobj.radius() * targobj.radius());
   }
   
   public void check() {

@@ -144,7 +144,7 @@
    
    
    public void postScore(String name, int score){
-     String thing = name + " - " + score;
+     String thing = name + "-" + score;
      yourScore = thing;
      scores[0] = thing;
      scoreList[0] = score;
