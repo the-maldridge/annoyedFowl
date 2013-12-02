@@ -48,7 +48,7 @@ void setup() {
   
   
   //setupClient
-  myClient = new Client(this, "minecraft.michaelwashere.tk", 25563);
+  myClient = new Client(this, "minecraft.michaelwashere.tk", 32001);
   
   
   //Initialize sound objects
