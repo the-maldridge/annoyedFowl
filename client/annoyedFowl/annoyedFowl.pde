@@ -94,8 +94,8 @@ if(hits >= 5){
         
         
         postToServer(yourScore);
+        goodIdea();
         //updateClient();
-        
         
         QFrame q = new QFrame(scores);
         q.addWindowListener(new WindowAdapter(){
@@ -111,6 +111,10 @@ if(hits >= 5){
  
 }
 
+void goodIdea() {
+    myClient = new Client(this, URL, 32001);
+}
+
 void updateClient(){
   String stuffToGet = "";
   stuffToGet = myClient.readString();
@@ -119,7 +123,6 @@ void updateClient(){
 
 void postToServer(String yourScore){
   myClient.write(yourScore);
-  myClient = new Client(this, URL, 32001);
 }
 
 void reset() {
