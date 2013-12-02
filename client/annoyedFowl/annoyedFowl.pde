@@ -3,6 +3,12 @@ import java.awt.event.WindowAdapter;
 import ddf.minim.*;
 import javax.swing.JFrame;
 import java.util.*;
+import processing.net.*;
+
+
+Client myClient;
+
+
 int numAttempts;
 int hits;
 int score;
@@ -39,6 +45,11 @@ void setup() {
   numAttempts = 0;
   hits = 0;
   goal = 5;
+  
+  
+  //setupClient
+  myClient = new Client(this, "minecraft.michaelwashere.tk", 32001);
+  
   
   //Initialize sound objects
   startup = new Sound("audio/Windows XP Startup.wav");
@@ -78,6 +89,13 @@ if(hits >= 5){
       public void windowClosing(WindowEvent e){
         scores = f.getScores();
         scoreList = f.getScoreList();
+        String yourScore = f.getyourScore();
+        
+        
+        postToServer(yourScore);
+        //updateClient();
+        
+        
         QFrame q = new QFrame(scores);
         q.addWindowListener(new WindowAdapter(){
          public void windowClosing(WindowEvent e){
@@ -90,6 +108,16 @@ if(hits >= 5){
     noLoop();
 }
  
+}
+
+void updateClient(){
+  String stuffToGet = "";
+  stuffToGet = myClient.readString();
+  scores = stuffToGet.split(":");
+}
+
+void postToServer(String yourScore){
+  myClient.write(yourScore);
 }
 
 void reset() {

@@ -148,8 +148,11 @@
      yourScore = thing;
      scores[0] = thing;
      scoreList[0] = score;
+<<<<<<< HEAD
+=======
      //println(Arrays.toString(scores));
      //println(Arrays.toString(scoreList));
+>>>>>>> c038129bb1bf6c459b507823bbc342560d969840
      for(int i = 0; i < scoreList.length; i++){
        for (int j = scoreList.length - 1; j > i; j--){
          if(scoreList[j] < scoreList[j-1]){
@@ -162,8 +165,11 @@
          }
        }
      }
+<<<<<<< HEAD
+=======
      //println(Arrays.toString(scores));
      //println(Arrays.toString(scoreList));
+>>>>>>> c038129bb1bf6c459b507823bbc342560d969840
      showResult();
    }
    public void showResult(){
