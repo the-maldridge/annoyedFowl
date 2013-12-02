@@ -14,6 +14,9 @@
   int[] getScoreList(){
     return s.getScoreList();
   }
+  String getyourScore(){
+   return s.getyourScore(); 
+  }
   public void closeWindow(){
     WindowEvent c = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
     Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(c);
@@ -26,6 +29,7 @@
     boolean button;
     String input;
     String name;
+    String yourScore;
     int score;
     String[] sc;
     int[] sL;
@@ -43,6 +47,7 @@
       buttonY = height*7/8 - buttonH;
       name = "";
       input = "";
+      yourScore = "";
       sc = scores;
       sL = scoreList;
 
@@ -54,6 +59,9 @@
     }
     int[] getScoreList(){
       return scoreList;
+    }
+    String getyourScore(){
+     return yourScore; 
     }
     
     void draw(){
@@ -71,7 +79,7 @@
        textSize(40);
        stroke(0);
        fill(0);
-       textAlign(CENTER);
+       textAlign(CENTER, CENTER);
        text("Submit", width/2, height*7/8);
        
        textSize(40);
@@ -83,8 +91,14 @@
        textSize(40);
        stroke(0);
        fill(0);
-       textAlign(CENTER, TOP);
-       text("Please enter your initials", width/2, height/8);
+       textAlign(CENTER, CENTER);
+       text("Your Score: " + score, width/2, height/8);
+       
+       textSize(40);
+       stroke(0);
+       fill(0);
+       textAlign(CENTER, CENTER);
+       text("Please enter your initials", width/2, height*2/8);
      }
      
      
@@ -131,10 +145,11 @@
    
    public void postScore(String name, int score){
      String thing = name + " - " + score;
+     yourScore = thing;
      scores[0] = thing;
      scoreList[0] = score;
-     println(Arrays.toString(scores));
-     println(Arrays.toString(scoreList));
+     //println(Arrays.toString(scores));
+     //println(Arrays.toString(scoreList));
      for(int i = 0; i < scoreList.length; i++){
        for (int j = scoreList.length - 1; j > i; j--){
          if(scoreList[j] < scoreList[j-1]){
@@ -147,8 +162,8 @@
          }
        }
      }
-     println(Arrays.toString(scores));
-     println(Arrays.toString(scoreList));
+     //println(Arrays.toString(scores));
+     //println(Arrays.toString(scoreList));
      showResult();
    }
    public void showResult(){
