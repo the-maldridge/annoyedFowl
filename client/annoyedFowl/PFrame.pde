@@ -26,7 +26,7 @@
    public class secondApplet extends PApplet{
     int buttonX, buttonY, buttonH, buttonW; 
     int buttonSize;
-    boolean button;
+    boolean button, balls;
     String input;
     String name;
     String yourScore;
@@ -68,10 +68,13 @@
        update(mouseX, mouseY);
        background(255);
        
-       if(button){
+       if(button && !balls){
          fill(200);
+       }else if (button && balls){
+        fill(255, 0, 0); 
+        balls = false;
        }else{
-        fill(255); 
+        fill(255);
        }
        stroke(0);
        rect(buttonX, buttonY, buttonW, buttonH);
@@ -80,7 +83,7 @@
        stroke(0);
        fill(0);
        textAlign(CENTER, CENTER);
-       text("Submit", width/2, height*7/8);
+       text("Submit", width/2, height*7/8 - 30);
        
        textSize(40);
        stroke(0);
@@ -114,8 +117,12 @@
      
   void mousePressed(){
     if(button){
-      name = input;
-      postScore(name, score);
+      if(input.length()>0){
+        name = input;
+        postScore(name, score);
+      }else{
+        balls = true;
+      }
     }
 
   }
@@ -126,7 +133,7 @@
     }
   }else {
     String check = key + "";
-    if(input.length() <= 2 && check.matches("[a-zA-Z_0-9]")){
+    if(check.matches("[a-zA-Z_0-9]")){
       input = input + key; 
     }
   }
