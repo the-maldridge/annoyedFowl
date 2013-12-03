@@ -127,13 +127,14 @@ void postToServer(String yourScore){
 
 void reset() {
      started = false;
-        numAttempts = 0;
-        hits = 0;
-        startup.rewind();
-        shutdown.rewind();
-        criticalStop.rewind();
-        folder.create();
-    loop();
+     numAttempts = 0;
+     hits = 0;
+     startup.rewind();
+     shutdown.rewind();
+     criticalStop.rewind();
+     folder.create();
+     disc = new ArrayList<projectile>();
+     loop();
 }
 
 void keyPressed() {

@@ -21,6 +21,6 @@ class target {
   }
   
   public int radius() {
-    return img.height;
+    return img.height/2;
   }
 }
