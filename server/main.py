@@ -15,16 +15,44 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
 
 class scoreTable():
     def __init__(self):
-        self.scores = [] #at some point load the database from file
+        try:
+            scorefile = open("scores.json")
+            self.scores = json.load(scorefile)
+            scorefile.close()
+        except:
+            self.scores = []
 
     def newScore(self, name, score):
         self.scores.append((int(score), name))
 	self.dumpScores()
-        self.scores.sort()
+        self.scores.sort(reverse=True)
         self.dumpScores()
+        self.saveScores()
+        self.saveHTML()
 
     def dumpScores(self):
         print json.dumps(self.scores)
+
+    def saveScores(self):
+        scorefile = open("scores.json", 'w')
+        json.dump(self.scores, scorefile, indent=2)
+        scorefile.close()
+
+    def saveHTML(self):
+        webfile = open("index.html", 'w')
+        webfile.write("<html><head>")
+        webfile.write("<title>TuxCannon Scores</title>")
+        webfile.write("<meta http-equiv=\"refresh\" content=\"5\"></head>")
+        webfile.write("<body")
+        webfile.write("<center><h1>High Scores Board</h1></center>")
+        for item in self.scores:
+            webfile.write("<h3>")
+            webfile.write(str(item[0]))
+            webfile.write(" - ")
+            webfile.write(str(item[1]))
+            webfile.write("</h3>")
+        webfile.write("</body></html>")
+        webfile.close()
 
 if __name__ == "__main__":
     HOST, PORT = "localhost", 32001

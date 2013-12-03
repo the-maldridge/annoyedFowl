@@ -1,3 +1,5 @@
 *.pde~
 *.py~
 *.pyc
+*.html
+*.json
