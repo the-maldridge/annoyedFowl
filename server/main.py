@@ -18,14 +18,16 @@ class scoreTable():
             scorefile = open("scores.json")
             self.scores = json.load(scorefile)
             scorefile.close()
+            print self.scores
         except:
             self.scores = []
 
     def newScore(self, name, score):
         logging.info("recieved new score of %s from %s", score, name)
-        self.scores.append((int(score), name))
+        self.scores.append([int(score), name])
 	self.dumpScores()
         self.scores.sort(reverse=True)
+        print self.scores
         self.dumpScores()
         self.saveScores()
         self.saveHTML()
