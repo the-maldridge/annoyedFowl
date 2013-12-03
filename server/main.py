@@ -2,6 +2,7 @@ import SocketServer
 import json
 import time
 import operator
+import logging
 
 class MyTCPHandler(SocketServer.BaseRequestHandler):
     def handle(self):
@@ -9,8 +10,6 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
         self.parseData(self.data)
 
     def parseData(self, data):
-        print data.split("-")[0]
-        print data.split("-")[1]
         db.newScore(data.split("-")[0], data.split("-")[1])
 
 class scoreTable():
@@ -23,6 +22,7 @@ class scoreTable():
             self.scores = []
 
     def newScore(self, name, score):
+        logging.info("recieved new score of %s from %s", score, name)
         self.scores.append((int(score), name))
 	self.dumpScores()
         self.scores.sort(reverse=True)
@@ -31,7 +31,7 @@ class scoreTable():
         self.saveHTML()
 
     def dumpScores(self):
-        print json.dumps(self.scores)
+        logging.debug(json.dumps(self.scores))
 
     def saveScores(self):
         scorefile = open("scores.json", 'w')
@@ -53,8 +53,11 @@ class scoreTable():
             webfile.write("</h3>")
         webfile.write("</body></html>")
         webfile.close()
+        logging.info("updated web score file")
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+
     HOST, PORT = "localhost", 32001
 
     while True:
@@ -63,9 +66,9 @@ if __name__ == "__main__":
             server = SocketServer.TCPServer((HOST, PORT), MyTCPHandler)
             break
         except:
-            print "couldn't start server, retrying"
+            logging.warning("couldn't start server, retrying")
 
-    print "server instantiated".center(80, "=")
+    logging.info("server instantiated")
     db = scoreTable()
 
     # Activate the server; this will keep running until you
