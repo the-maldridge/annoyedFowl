@@ -6,6 +6,7 @@ import java.util.*;
 import processing.net.*;
 
 final String URL="localhost";
+final int PORT = 32001;
 
 Client myClient;
 
@@ -49,7 +50,7 @@ void setup() {
   
   
   //setupClient
-  myClient = new Client(this, URL, 32001);
+  myClient = new Client(this, URL, PORT);
   
   
   //Initialize sound objects
@@ -112,7 +113,7 @@ if(hits >= 5){
 }
 
 void goodIdea() {
-    myClient = new Client(this, URL, 32001);
+    myClient = new Client(this, URL, PORT);
 }
 
 void updateClient(){

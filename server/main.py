@@ -18,7 +18,6 @@ class scoreTable():
             scorefile = open("scores.json")
             self.scores = json.load(scorefile)
             scorefile.close()
-            print self.scores
         except:
             self.scores = []
 
@@ -27,7 +26,6 @@ class scoreTable():
         self.scores.append([int(score), name])
 	self.dumpScores()
         self.scores.sort(reverse=True)
-        print self.scores
         self.dumpScores()
         self.saveScores()
         self.saveHTML()

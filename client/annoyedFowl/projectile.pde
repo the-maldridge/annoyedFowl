@@ -2,7 +2,6 @@ class projectile {
   private float xpos=0;
   private float ypos=0;
   private float simTime;
-  private float maxT;
   private float vel;
   private float gravity = 32;
   private float ballisticAngle;
@@ -18,7 +17,6 @@ class projectile {
     xpos=0;
     ypos=0;
     simTime=0;
-    maxT = ((2 * vel * sin(ballisticAngle)) / gravity);
     simState = "RUN";
   }
   
