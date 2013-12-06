@@ -74,7 +74,8 @@ void draw() {
         disc.get(i).check();
         hits = hits + 1;
         criticalStop.play();  //play critical stop when player hits target
-        //folder.create();        
+        
+        folder.create();        
       }
     }
     score = int(float(hits)/numAttempts*10);

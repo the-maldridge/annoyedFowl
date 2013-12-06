@@ -24,7 +24,7 @@
   String display[];
   int EbuttonX, buttonY, buttonH, buttonW, RbuttonX, HbuttonX, HbuttonY, HbuttonW, HbuttonH; 
   boolean Ebutton, Rbutton, Hbutton;
-  String SCOREURL = "http://unicodesnowmanforyou.com";
+  String SCOREURL = "http://localhost:8000";
   
   thirdApplet(String[] scores){
     display = scores;
